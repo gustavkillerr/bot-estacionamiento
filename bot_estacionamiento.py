@@ -5,6 +5,10 @@ import pytz
 import os
 import requests
 from bs4 import BeautifulSoup
+from keep_alive import keep_alive  # 👈 Importar servidor Flask
+
+# Mantener bot activo en Render
+keep_alive()
 
 # Zona horaria Argentina
 ARG_TIMEZONE = pytz.timezone("America/Argentina/Buenos_Aires")
@@ -14,7 +18,6 @@ autos_en_estacionamiento = {}
 
 main_keyboard = ReplyKeyboardMarkup([["Entrada", "Salida"]], resize_keyboard=True)
 
-# Obtener el precio del dólar blue desde dolarhoy.com
 def obtener_dolar_blue():
     try:
         response = requests.get("https://dolarhoy.com", timeout=10)
