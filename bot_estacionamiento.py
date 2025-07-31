@@ -1,4 +1,4 @@
-from telegram import Update, ReplyKeyboardMarkup
+from telegram import Update, ReplyKeyboardMarkup 
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler
 from datetime import datetime
 import pytz
@@ -6,9 +6,6 @@ import os
 import requests
 from bs4 import BeautifulSoup
 from keep_alive import keep_alive  # 👈 Importar servidor Flask
-
-# Mantener bot activo en Render
-keep_alive()
 
 # Zona horaria Argentina
 ARG_TIMEZONE = pytz.timezone("America/Argentina/Buenos_Aires")
@@ -91,8 +88,6 @@ async def cancelar(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return ConversationHandler.END
 
 if __name__ == "__main__":
-    import asyncio
-
     TOKEN = os.getenv("BOT_TOKEN")
     if not TOKEN:
         print("Falta definir la variable BOT_TOKEN en el entorno.")
@@ -116,5 +111,5 @@ if __name__ == "__main__":
     app.add_handler(entrada_conv)
     app.add_handler(salida_conv)
 
-    print("Bot corriendo...")
-    asyncio.run(app.run_polling())
+    keep_alive()  # 🔥 Levanta el servidor Flask para evitar que Render lo duerma
+    app.run_polling()  # ✅ Ejecuta el bot correctamente sin asyncio.run()
